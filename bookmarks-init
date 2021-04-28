@@ -1,0 +1,75 @@
+;;;; Emacs Bookmark Format Version 1 ;;;; -*- coding: utf-8-emacs -*-
+;;; This format is meant to be slightly human-readable;
+;;; nevertheless, you probably don't want to edit it.
+;;; -*- End Of Bookmark File Format Version Stamp -*-
+(("feed-News:IT"
+ (location . "@3-day-ago +unread +news +it")
+ (tags "it" "news" "unread")
+ (handler . elfeed-search-bookmark-handler))
+("feed-News:Headline:SBS:8hour"
+ (location . "@3-day-ago +unread +news +headline +sbs")
+ (tags "sbs" "headline" "news" "unread")
+ (handler . elfeed-search-bookmark-handler))
+("feed-News:Headline:Hani"
+ (location . "@3-day-ago +unread +news +headline +hani")
+ (tags "hani" "headline" "news" "unread")
+ (handler . elfeed-search-bookmark-handler))
+("feed-News:Headline:Joins"
+ (location . "@3-day-ago +unread +news +headline +joins")
+ (tags "joins" "headline" "news" "unread")
+ (handler . elfeed-search-bookmark-handler))
+("feed-News:Headline:Kmib"
+ (location . "@3-day-ago +unread +news +headline +kmib")
+ (tags "kmib" "headline" "news" "unread")
+ (handler . elfeed-search-bookmark-handler))
+("feed-News:Economy:Kmib"
+ (location . "@3-day-ago +unread +news +economy +kmib")
+ (tags "kmib" "economy" "news" "unread")
+ (handler . elfeed-search-bookmark-handler))
+("feed-News:Economy:SBS"
+ (location . "@3-day-ago +unread +news +economy +sbs")
+ (tags "sbs" "economy" "news" "unread")
+ (handler . elfeed-search-bookmark-handler))
+("feed-Dev"
+ (location . "@3-month-ago +unread +dev")
+ (tags "dev" "unread")
+ (handler . elfeed-search-bookmark-handler))
+("feed-News:Economy"
+ (location . "@3-day-ago +unread +news +economy")
+ (tags "economy" "news" "unread")
+ (handler . elfeed-search-bookmark-handler))
+("feed-News:Headline"
+ (location . "@3-day-ago +unread +news +headline")
+ (tags "headline" "news" "unread")
+ (handler . elfeed-search-bookmark-handler))
+("org-feedIndex"
+ (filename . "~/.emacs.d/elfeed.org")
+ (front-context-string . "*** Kubernetes  ")
+ (rear-context-string . "          :dev:\n")
+ (position . 157))
+("el-private"
+ (filename . "~/.emacs.d/private.el")
+ (front-context-string . "  :ensure t)\n(se")
+ (rear-context-string . "ackage org2blog\n")
+ (position . 79))
+("org-gtd:inbox"
+ (filename . "~/org/gtd/inbox.org")
+ (front-context-string . "* WAITING 정할 항목\n")
+ (rear-context-string . "성\n  - 테스트 코드 작성\n")
+ (position . 143))
+("org-sys:init"
+ (filename . "~/.emacs.d/init.org")
+ (front-context-string . "* Mode specific\n")
+ (rear-context-string . "  #+end_src\n   \n")
+ (position . 21423))
+("org-gtd:priv"
+ (filename . "~/Dropbox/org/gtd/priv.org")
+ (front-context-string . "Bk              ")
+ (rear-context-string . "SAGE-----\n   \n* ")
+ (position . 3371))
+("org-gtd:refs"
+ (filename . "~/Dropbox/org/gtd/refs.org")
+ (front-context-string . "* Git\n** 구성     ")
+ (rear-context-string . "ONS: ^:nil \\n:t\n")
+ (position . 125))
+)
