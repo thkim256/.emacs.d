@@ -3,31 +3,31 @@
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
 (("feed-News:IT"
- (location . "@3-day-ago +unread +news +it")
+ (location . "@2-day-ago +unread +news +it")
  (tags "it" "news" "unread")
  (handler . elfeed-search-bookmark-handler))
 ("feed-News:Headline:SBS:8hour"
- (location . "@3-day-ago +unread +news +headline +sbs")
+ (location . "@1-day-ago +unread +news +headline +sbs")
  (tags "sbs" "headline" "news" "unread")
  (handler . elfeed-search-bookmark-handler))
 ("feed-News:Headline:Hani"
- (location . "@3-day-ago +unread +news +headline +hani")
+ (location . "@1-day-ago +unread +news +headline +hani")
  (tags "hani" "headline" "news" "unread")
  (handler . elfeed-search-bookmark-handler))
 ("feed-News:Headline:Joins"
- (location . "@3-day-ago +unread +news +headline +joins")
+ (location . "@1-day-ago +unread +news +headline +joins")
  (tags "joins" "headline" "news" "unread")
  (handler . elfeed-search-bookmark-handler))
 ("feed-News:Headline:Kmib"
- (location . "@3-day-ago +unread +news +headline +kmib")
+ (location . "@1-day-ago +unread +news +headline +kmib")
  (tags "kmib" "headline" "news" "unread")
  (handler . elfeed-search-bookmark-handler))
 ("feed-News:Economy:Kmib"
- (location . "@3-day-ago +unread +news +economy +kmib")
+ (location . "@1-day-ago +unread +news +economy +kmib")
  (tags "kmib" "economy" "news" "unread")
  (handler . elfeed-search-bookmark-handler))
 ("feed-News:Economy:SBS"
- (location . "@3-day-ago +unread +news +economy +sbs")
+ (location . "@1-day-ago +unread +news +economy +sbs")
  (tags "sbs" "economy" "news" "unread")
  (handler . elfeed-search-bookmark-handler))
 ("feed-Dev"
@@ -35,11 +35,11 @@
  (tags "dev" "unread")
  (handler . elfeed-search-bookmark-handler))
 ("feed-News:Economy"
- (location . "@3-day-ago +unread +news +economy")
+ (location . "@1-day-ago +unread +news +economy")
  (tags "economy" "news" "unread")
  (handler . elfeed-search-bookmark-handler))
 ("feed-News:Headline"
- (location . "@3-day-ago +unread +news +headline")
+ (location . "@1-day-ago +unread +news +headline")
  (tags "headline" "news" "unread")
  (handler . elfeed-search-bookmark-handler))
 ("org-feedIndex"
