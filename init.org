@@ -308,9 +308,6 @@ Mac OS에서의 기본 설정
 (load-theme 'zenburn t)
 #+end_src
 
-#+RESULTS:
-: t
-
 테마 사이클 변경
 
 #+begin_src emacs-lisp
@@ -327,11 +324,6 @@ Mac OS에서의 기본 설정
 폰트 설정
 
 #+begin_src emacs-lisp
-;; (cond ((member "Monaco" (font-family-list))
-;;        (set-face-attribute 'default nil :font "Monaco-14"))
-;;       ((member "Inconsolata" (font-family-list))
-;;        (set-face-attribute 'default nil :font "Inconsolata-14")))
-
 ;; |01234567|
 ;; |abcdefgh|
 ;; |ABCDEFGH|
@@ -347,8 +339,6 @@ Mac OS에서의 기본 설정
 
 (set-font "M+ 1m" 14)
 #+end_src
-
-#+RESULTS:
 
 
 New in Emacs 24.4 is the =prettify-symbols-mode=! It's neat.
@@ -660,10 +650,9 @@ the value.
 (require 'treemacs-projectile)
 
 (setq treemacs-read-string-input 'from-minibuffer; 입력창을 이맥스 기본 미니버퍼에서 실행
-      treemacs-collapse-dirs (if treemacs-python-executable 3 0); 지정하지 않으면 간헐적 오류 발생
       ;; treemacs-width 35
       ;; treemacs-git-mode 'deferred
-      treemacs-no-png-images 1)
+      treemacs-no-png-images nil)
 
 #+end_src
 
@@ -811,10 +800,13 @@ traditionally has had quite poor Emacs support.
 
                            (setq gc-cons-threshold 100000000
                                  lsp-idle-delay 0.200
-                                 lsp-ui-doc-enable nil
                                  lsp-log-io nil
+                                 lsp-ui-doc-enable nil
+                                 lsp-lens-enable nil
+                                 lsp-enable-links nil ; treemacs crash
+                                 lsp-ui-sideline-enable nil
                                  lsp-enable-symbol-highlighting nil
-                                 ;; lsp-ui-sideline-enable nil
+                                 lsp-headerline-breadcrumb-enable nil
                                  ;; lsp-completion-provider :capf
                                  read-process-output-max (* 1024 1024))
 
@@ -825,9 +817,6 @@ traditionally has had quite poor Emacs support.
                                         )
                            ))
 #+end_src
-
-#+RESULTS:
-| (lambda nil (let ((lsp-keymap-prefix C-c l)) (lsp-enable-which-key-integration)) (setq gc-cons-threshold 100000000 lsp-idle-delay 0.2 lsp-ui-doc-enable nil lsp-log-io nil lsp-enable-symbol-highlighting nil read-process-output-max (* 1024 1024)) (push [/\\][^/\\]*\.\(json\ | html\ | yaml\)$ lsp-file-watch-ignored)) | lsp-lens-mode | dap-tooltip-update-mouse-motions-if-enabled | #[0 \305\306 \210)\307\310\311\312\211\207 [lsp-keymap-prefix gc-cons-threshold lsp-idle-delay lsp-ui-doc-enable read-process-output-max C-c l lsp-enable-which-key-integration 100000000 0.2 nil 1048576] 2] |
 
 ** Dap
 
