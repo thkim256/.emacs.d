@@ -104,71 +104,72 @@ tangled, and the tangled file is compiled."
        (packages
         '(
           ;;;; Extension
-          use-package          ; 패키지 관리자
-          auto-compile         ; Emacs Lisp 라이브러리 컴파일러
-          which-key            ; 사용가능한 키 바인딩 표시
-          vterm                ; 터미널 에뮬레이터
-          diff-hl              ; Git 커밋되지 않은 변경사항 강조
-          magit                ; Git 유틸
-          page-break-lines     ; 페이지 나누기(^L) 표시 변경
-          flycheck             ; 구문 오류 분석
-          popup                ; 툴팁
-          google-translate     ; 구글 번역
+          use-package                   ; 패키지 관리자
+          auto-compile                  ; Emacs Lisp 라이브러리 컴파일러
+          which-key                     ; 사용가능한 키 바인딩 표시
+          vterm                         ; 터미널 에뮬레이터
+          diff-hl                       ; Git 커밋되지 않은 변경사항 강조
+          magit                         ; Git 유틸
+          page-break-lines              ; 페이지 나누기(^L) 표시 변경
+          flycheck                      ; 구문 오류 분석
+          popup                         ; 툴팁
+          google-translate              ; 구글 번역
 
           ;;;; Evil
-          evil                 ; Vim mode support
-          evil-collection      ; Evil Collection
-          evil-org             ; Evil org
+          evil                          ; Vim mode support
+          evil-collection               ; Evil Collection
+          evil-org                      ; Evil org
 
           ;;;; Buffer Utilities
-          olivetti             ; 화면 중앙으로 버퍼 변경 (80줄 표시)
-          multiple-cursors     ; 멀티 커서
-          paredit              ; 괄호 편집 유틸
-          yasnippet-snippets   ; 스니펫 모음
-          expand-region        ; 선택 영역 늘리고 줄이는 유틸 (단어, 스코프)
+          olivetti                      ; 화면 중앙으로 버퍼 변경 (80줄 표시)
+          multiple-cursors              ; 멀티 커서
+          paredit                       ; 괄호 편집 유틸
+          yasnippet-snippets            ; 스니펫 모음
+          expand-region                 ; 선택 영역 늘리고 줄이는 유틸 (단어, 스코프)
 
           ;;;; Completion
-          company              ; 텍스트 완성 프레임워크
-          counsel              ; Ivy 완성 기능
-          ivy-rich             ; Ivy 풍부한 디스플레이
-          smex                 ; M-x Ido-style fuzzy matching
+          company                       ; 텍스트 완성 프레임워크
+          counsel                       ; Ivy 완성 기능
+          ivy-rich                      ; Ivy 풍부한 디스플레이
+          smex                          ; M-x Ido-style fuzzy matching
 
           ;;;; File Manager
-          projectile           ; 프로젝트 관리 네비게이션
-          counsel-projectile   ; projectile ivy 통합
-          treemacs             ; 트리 형식의 파일 관리 매니저
-          treemacs-evil        ; treemacs evil 통합
-          treemacs-projectile  ; treemacs projectile 통합
+          projectile                    ; 프로젝트 관리 네비게이션
+          counsel-projectile            ; projectile ivy 통합
+          treemacs                      ; 트리 형식의 파일 관리 매니저
+          treemacs-evil                 ; treemacs evil 통합
+          treemacs-projectile           ; treemacs projectile 통합
 
           ;;; RSS Feed
-          elfeed               ; rss feed 리더기
-          elfeed-org           ; elfeed org형식의 인덱스
+          elfeed                        ; rss feed 리더기
+          elfeed-org                    ; elfeed org형식의 인덱스
 
           ;;;; Language Server Protocol
-          lsp-mode             ; LSP mode
-          lsp-ui               ; LSP UI
-          lsp-treemacs         ; LSP treemacs 통합
-          dap-mode             ; Debug
-          lsp-java             ; Java
+          lsp-mode                      ; LSP mode
+          lsp-ui                        ; LSP UI
+          lsp-treemacs                  ; LSP treemacs 통합
+          dap-mode                      ; Debug
+          lsp-java                      ; Java
 
           ;;;; Golang
-          go-mode              ; Golang
-          ob-go                ; Golang org babel
-          go-tag               ; Golang support tag
+          go-mode                       ; Golang
+          ob-go                         ; Golang org babel
+          go-tag                        ; Golang support tag
 
           ;;;; Theme
           zenburn-theme
 
           ;;;; Other Special Mode
-          vlf                  ; View Large File
-          rfc-mode             ; RFC
-          js2-mode             ; Javascript
-          json-mode            ; Json
-          k8s-mode             ; Kubernetes
-          markdown-mode        ; Markdown
-          dockerfile-mode      ; Dockerfile
-          groovy-mode          ; Groovy
-          plantuml-mode        ; Plantuml
+          vlf                           ; View Large File
+          highlight-indentation-mode    ; 들여쓰기 표시
+          rfc-mode                      ; RFC
+          js2-mode                      ; Javascript
+          json-mode                     ; Json
+          k8s-mode                      ; Kubernetes
+          markdown-mode                 ; Markdown
+          dockerfile-mode               ; Dockerfile
+          groovy-mode                   ; Groovy
+          plantuml-mode                 ; Plantuml
           )))
   (when (memq window-system '(mac ns))
     (push 'exec-path-from-shell packages)
@@ -856,6 +857,31 @@ traditionally has had quite poor Emacs support.
   (add-hook (intern (concat (symbol-name mode) "-hook")) 'paredit-mode))
 #+end_src
 
+** Json
+indent 설정
+#+begin_src emacs-lisp
+(require 'js2-mode)
+(add-hook 'json-mode-hook
+          (lambda ()
+            (make-local-variable 'js-indent-level)
+            (setq js-indent-level tab-width)))
+#+end_src
+
+** Yaml
+들여쓰기 표시 활성화
+#+begin_src emacs-lisp
+(add-hook 'yaml-mode-hook
+          '(lambda ()
+             (highlight-indentation-mode)
+             (highlight-indentation-current-column-mode)))
+#+end_src
+** Ansi Color
+#+BEGIN_SRC emacs-lisp
+(require 'ansi-color)
+(defun display-ansi-colors ()
+  (interactive)
+  (ansi-color-apply-on-region (point-min) (point-max)))
+#+END_SRC
 ** Go
 Golang 관련 설정
 
@@ -929,23 +955,6 @@ default는 로컬에 있는 jar 형식을 사용
 (setq k8s-indent-offset nil)
 ;; The site docs URL
 (setq k8s-site-docs-url "https://kubernetes.io/docs/reference/generated/kubernetes-api/")
-#+end_src
-
-** Ansi Color
-#+BEGIN_SRC emacs-lisp
-(require 'ansi-color)
-(defun display-ansi-colors ()
-  (interactive)
-  (ansi-color-apply-on-region (point-min) (point-max)))
-#+END_SRC
-** Json
-indent 설정
-#+begin_src emacs-lisp
-(require 'js2-mode)
-(add-hook 'json-mode-hook
-          (lambda ()
-            (make-local-variable 'js-indent-level)
-            (setq js-indent-level tab-width)))
 #+end_src
 
 * Key bindings
