@@ -149,6 +149,7 @@ tangled, and the tangled file is compiled."
           lsp-ui               ; LSP UI
           lsp-treemacs         ; LSP treemacs 통합
           dap-mode             ; Debug
+          lsp-java             ; Java
 
           ;;;; Golang
           go-mode              ; Golang
