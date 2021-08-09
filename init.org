@@ -161,7 +161,7 @@ tangled, and the tangled file is compiled."
 
           ;;;; Other Special Mode
           vlf                           ; View Large File
-          highlight-indentation-mode    ; 들여쓰기 표시
+          highlight-indentation         ; 들여쓰기 표시
           rfc-mode                      ; RFC
           js2-mode                      ; Javascript
           json-mode                     ; Json
@@ -701,7 +701,9 @@ the value.
       ibuffer-default-sorting-mode 'major-mode)
 (add-hook 'ibuffer-mode-hook
           '(lambda ()
-             (ibuffer-auto-mode 1)))
+             ;; (add-to-list 'ibuffer-never-show-predicates "^\\*")
+             (ibuffer-auto-mode 1)
+             ))
 #+end_src
 * Mode specific
 ** Shell
@@ -873,7 +875,8 @@ indent 설정
 (add-hook 'yaml-mode-hook
           '(lambda ()
              (highlight-indentation-mode)
-             (highlight-indentation-current-column-mode)))
+             ;; (highlight-indentation-current-column-mode)
+             ))
 #+end_src
 ** Ansi Color
 #+BEGIN_SRC emacs-lisp
