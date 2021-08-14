@@ -661,8 +661,8 @@ the value.
 
 ** Encrypt
 #+begin_src emacs-lisp
-(require 'epa-file)
-(epa-file-enable)
+;; (require 'epa-file)
+;; (epa-file-enable)
 (require 'org-crypt)
 ;; (custom-set-variables '(epg-gpg-program  "/usr/local/bin/gpg"))
 (org-crypt-use-before-save-magic)
