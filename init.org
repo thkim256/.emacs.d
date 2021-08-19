@@ -500,7 +500,7 @@ tag-list
 org babel alist
 #+begin_src emacs-lisp
 (add-to-list 'org-structure-template-alist
-             '("sh" . "src sh :results drawer \n"))
+             '("sh" . "src shell :noweb yes :results drawer \n"))
 (add-to-list 'org-structure-template-alist
              '("t" . "src typescript :cmdline -t es6 \n"))
 (add-to-list 'org-structure-template-alist
