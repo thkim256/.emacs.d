@@ -257,6 +257,14 @@ Mac OS에서의 기본 설정
 (add-hook 'doc-view-mode-hook 'auto-revert-mode)
 ;; whitespace remove
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
+;; 메뉴바 끄기
+(menu-bar-mode -1)
+;; 툴바 끄기
+(tool-bar-mode -1)
+;; 터미널 모드에서만 동작
+(unless (display-graphic-p)
+  ;;
+  )
 #+end_src
 
 자동 저장 파일을 단일 디렉토리에 저장한다.
