@@ -163,6 +163,7 @@ tangled, and the tangled file is compiled."
           ;;;; Other Special Mode
           vlf                           ; View Large File
           highlight-indentation         ; 들여쓰기 표시
+          adoc-mode                     ; Asciidoc
           rfc-mode                      ; RFC
           js2-mode                      ; Javascript
           json-mode                     ; Json
@@ -443,18 +444,18 @@ fuzzy설정으로 인하여, 파일생성 등을 원할하게 할 수 없는 부
 =org-agenda=, =org-capture= 설정
 
 #+begin_src emacs-lisp
-(setq org-agenda-files '("~/org/gtd/inbox.org"
-                         "~/org/gtd/gtd.org"
-                         "~/org/gtd/tickler.org"))
+(setq org-agenda-files '("~/org/inbox.org"
+                         "~/org/project.org"
+                         "~/org/tickler.org"))
 (setq org-capture-templates '(("t" "Todo [inbox]" entry
-                               (file "~/org/gtd/inbox.org")
+                               (file "~/org/inbox.org")
                                "* TODO %i%?")
                               ("T" "Tickler" entry
-                               (file+headline "~/org/gtd/tickler.org" "Tickler")
+                               (file+headline "~/org/tickler.org" "Tickler")
                                "* %i%? \n %U")))
-(setq org-refile-targets '(("~/org/gtd/gtd.org" :maxlevel . 3)
-                           ("~/org/gtd/someday.org" :level . 1)
-                           ("~/org/gtd/tickler.org" :maxlevel . 2)))
+(setq org-refile-targets '(("~/org/projet.org" :maxlevel . 3)
+                           ("~/org/someday.org" :level . 1)
+                           ("~/org/tickler.org" :maxlevel . 2)))
 ;; (setq org-agenda-custom-commands
 ;;       '(("o" "At the office" tags-todo "@office"
 ;;          ((org-agenda-overriding-header "Office")
@@ -795,7 +796,7 @@ RSS Reader
 #+begin_src emacs-lisp
 (require 'elfeed)
 (setq-default elfeed-search-filter "@1-month-ago +unread ")
-(setq browse-url-browser-function 'eww-browse-url)
+;; (setq browse-url-browser-function 'eww-browse-url)
 
 (require 'elfeed-org)
 (elfeed-org)

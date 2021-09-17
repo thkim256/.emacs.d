@@ -52,8 +52,8 @@
  (front-context-string . "  :ensure t)\n(se")
  (rear-context-string . "ackage org2blog\n")
  (position . 79))
-("org-gtd:inbox"
- (filename . "~/org/gtd/inbox.org")
+("org:inbox"
+ (filename . "~/org/inbox.org")
  (front-context-string . "* WAITING 정할 항목\n")
  (rear-context-string . "성\n  - 테스트 코드 작성\n")
  (position . 143))
@@ -62,13 +62,13 @@
  (front-context-string . "* Mode specific\n")
  (rear-context-string . "  #+end_src\n   \n")
  (position . 21423))
-("org-gtd:priv"
- (filename . "~/Dropbox/org/gtd/priv.org")
+("org:priv"
+ (filename . "~/org/priv.org")
  (front-context-string . "Bk              ")
  (rear-context-string . "SAGE-----\n   \n* ")
  (position . 3371))
-("org-gtd:refs"
- (filename . "~/Dropbox/org/gtd/refs.org")
+("org:refs"
+ (filename . "~/org/refs.org")
  (front-context-string . "* Git\n** 구성     ")
  (rear-context-string . "ONS: ^:nil \\n:t\n")
  (position . 125))
