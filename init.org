@@ -90,12 +90,7 @@ tangled, and the tangled file is compiled."
 #+begin_src emacs-lisp
 (custom-set-variables
  '(gnutls-algorithm-priority "normal:-vers-tls1.3"))
-(setq package-archives
-      '(("gnu" . "https://elpa.gnu.org/packages/")
-        ("melpa" . "https://melpa.org/packages/"))
-      package-archive-priorities
-      '(("melpa" . 5)
-        ("gnu" . 0)))
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 #+end_src
 
 전체 설치 패키지 모음
