@@ -294,18 +294,18 @@ Mac OS에서의 기본 설정
 
 #+begin_src emacs-lisp
 (dolist (mode
-         '(abbrev-mode                  ; E.g. sopl -> System.out.println
-           column-number-mode           ; Show column number in mode line
-           delete-selection-mode        ; Replace selected text
-           dirtrack-mode                ; directory tracking in *shell*
-           global-company-mode          ; Auto-completion everywhere
-           ;; global-diff-hl-mode          ; Highlight uncommitted changes
-           global-so-long-mode          ; Mitigate performance for long lines
-           global-linum-mode            ; Linum mode
-           counsel-projectile-mode      ; Manage and navigate projects
-           recentf-mode                 ; Recently opened files
-           show-paren-mode              ; Highlight matching parentheses
-           which-key-mode))             ; Available keybindings in popup
+         '(abbrev-mode                      ; E.g. sopl -> System.out.println
+           column-number-mode               ; Show column number in mode line
+           delete-selection-mode            ; Replace selected text
+           dirtrack-mode                    ; directory tracking in *shell*
+           global-company-mode              ; Auto-completion everywhere
+           ;; global-diff-hl-mode              ; Highlight uncommitted changes
+           global-so-long-mode              ; Mitigate performance for long lines
+           global-display-line-numbers-mode ; Buffer display line
+           counsel-projectile-mode          ; Manage and navigate projects
+           recentf-mode                     ; Recently opened files
+           show-paren-mode                  ; Highlight matching parentheses
+           which-key-mode))                 ; Available keybindings in popup
   (funcall mode 1))
 #+end_src
 
@@ -778,7 +778,7 @@ Disable Line Mode
 #+begin_src emacs-lisp
 (add-hook 'vterm-mode-hook
           (lambda ()
-            (linum-mode 0)))
+            (display-line-numbers-mode 0)))
 #+end_src
 
 Bash indent width
