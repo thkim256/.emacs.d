@@ -167,6 +167,7 @@ tangled, and the tangled file is compiled."
           dockerfile-mode               ; Dockerfile
           groovy-mode                   ; Groovy
           plantuml-mode                 ; Plantuml
+          ox-gfm                        ; org -> github 스타일의 마크다운 내보내기
           )))
   (when (memq window-system '(mac ns))
     (push 'exec-path-from-shell packages)
@@ -516,6 +517,10 @@ org babel alist
 (setq org-adapt-indentation nil)
 #+end_src
 
+github스타일의 내보내기
+#+begin_src emacs-lisp
+(require 'ox-gfm)
+#+end_src
 ** Interactive functions
 <<sec:defuns>>
 
