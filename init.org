@@ -219,6 +219,7 @@ Mac OS에서의 기본 설정
       ring-bell-function 'ignore        ; Quiet
       scroll-margin 1                   ; Space between cursor and top/bottom
       sentence-end-double-space nil     ; No double space
+      vc-handled-backends nil           ; Ignore Default VCS (use magit)
       ad-redefinition-action 'accept    ; ad-handle-definition Warning ignore
       custom-file                       ; Customizations in a separate file
       (concat user-emacs-directory "custom.el"))
