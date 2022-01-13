@@ -521,6 +521,19 @@ github스타일의 내보내기
 #+begin_src emacs-lisp
 (require 'ox-gfm)
 #+end_src
+
+
+org-journal
+#+begin_src emacs-lisp
+(require 'org-journal)
+(setq org-journal-dir "~/org/journal/"
+      org-journal-file-format "%Y/%m/%Y%m%d.org"
+      org-journal-file-header "#+title: %Y%m%d Journal \n#+startup: showeverything")
+(setq org-agenda-files (append
+                        org-agenda-files
+                        (directory-files-recursively org-journal-dir "\\.org$")))
+#+end_src
+
 ** Interactive functions
 <<sec:defuns>>
 
@@ -1064,6 +1077,7 @@ c.f. [[http://stackoverflow.com/questions/683425/globally-override-key-binding-i
 (define-key custom-bindings-map (kbd "C-c c")   'org-capture)
 (define-key custom-bindings-map (kbd "C-c t")
   (lambda () (interactive) (org-agenda nil "n")))
+(define-key custom-bindings-map (kbd "C-c j")   'org-journal-new-entry)
 #+end_src
 
 ** Bindings for functions defined [[sec:defuns][above]].
