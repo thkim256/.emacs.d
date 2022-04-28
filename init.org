@@ -1,9 +1,6 @@
 #+TITLE: Emacs configuration file
 #+AUTHOR: thkim256
 #+BABEL: :cache yes
-#+LATEX_HEADER: \usepackage{parskip}
-#+LATEX_HEADER: \usepackage{inconsolata}
-#+LATEX_HEADER: \usepackage[utf8]{inputenc}
 #+PROPERTY: header-args :tangle yes
 #+OPTIONS: toc:2 num:nil ^:nil \n:t
 
@@ -91,6 +88,7 @@ tangled, and the tangled file is compiled."
 (custom-set-variables
  '(gnutls-algorithm-priority "normal:-vers-tls1.3"))
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+(add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/"))
 #+end_src
 
 전체 설치 패키지 모음
@@ -142,7 +140,6 @@ tangled, and the tangled file is compiled."
 
           ;;; Mu4e
           mu4e-alert
-          mu4e-views
 
           ;;; org-journal
           org-journal
@@ -206,7 +203,6 @@ Mac OS에서의 기본 설정
   (setq ns-pop-up-frames nil
         mac-option-modifier nil
         mac-command-modifier 'meta
-        exec-path-from-shell-warn-duration-millis 3000
         exec-path-from-shell-variables '("PATH" "TMPDIR" "GOROOT" "GOPATH" "JAVA_HOME"))
   (exec-path-from-shell-initialize)
   (when (fboundp 'mac-auto-operator-composition-mode)
@@ -318,6 +314,37 @@ Mac OS에서의 기본 설정
   (funcall mode 1))
 #+end_src
 
+** Encrypt
+#+begin_src emacs-lisp
+;; (require 'epa-file)
+;; (epa-file-enable)
+(require 'org-crypt)
+;; (custom-set-variables '(epg-gpg-program  "/usr/local/bin/gpg"))
+(org-crypt-use-before-save-magic)
+(setq org-tags-exclude-from-inheritance (quote ("crypt")))
+(setq org-crypt-key nil)
+(setq epa-file-select-keys nil)
+;; 암호문구를 이맥스 안에서 실행
+(setq epg-pinentry-mode 'loopback)
+#+end_src
+
+** Page Breaks
+ (C-q C-l) --> pretty view
+#+begin_src emacs-lisp
+(require 'page-break-lines)
+#+end_src
+
+** Ibuffer
+#+begin_src emacs-lisp
+(defalias 'list-buffers 'ibuffer)
+(setq ibuffer-expert t
+      ibuffer-default-sorting-mode 'major-mode)
+(add-hook 'ibuffer-mode-hook
+          #'(lambda ()
+             ;; (add-to-list 'ibuffer-never-show-predicates "^\\*")
+             (ibuffer-auto-mode 1)
+             ))
+#+end_src
 ** Visual
 
 #+begin_src emacs-lisp
@@ -329,7 +356,7 @@ Mac OS에서의 기본 설정
 #+begin_src emacs-lisp
 (defun cycle-themes ()
   "Returns a function that lets you cycle your themes."
-  (let ((themes '#1=(leuven atom-one-dark . #1#)))
+  (let ((themes '#1=(leuven zenburn . #1#)))
     (lambda ()
       (interactive)
       ;; Rotates the thme cycle and changes the current theme.
@@ -346,10 +373,11 @@ Mac OS에서의 기본 설정
 ;; |--------|
 ;; |일바이트|
 (defun set-font (font size)
-  ""
+  "font 변경"
   (interactive
    (let ((completion-ignore-case  t))
-     (list (completing-read "Font: " (font-family-list) nil t))))
+     (list (completing-read "Font: " (font-family-list) nil t)
+           (read-number "Size: "))))
   (when (member font (font-family-list))
     (set-face-font 'default (font-spec :family font :size size))))
 
@@ -376,6 +404,27 @@ simple and beautiful. The default width is just a bit short.
   (remove-hook 'olivetti-mode-on-hook 'visual-line-mode))
 #+end_src
 
+** Evil
+#+begin_src emacs-lisp
+(require 'evil)
+(require 'evil-collection)
+(setq evil-want-keybinding nil)
+(evil-mode t)
+(evil-collection-init)
+
+(require 'evil-org)
+(add-hook 'org-mode-hook 'evil-org-mode)
+(evil-org-set-key-theme '(navigation insert textobjects additional calendar))
+
+(require 'evil-org-agenda)
+(evil-org-agenda-set-keys)
+
+;; :q should kill the current buffer rather than quitting emacs entirely
+(evil-ex-define-cmd "q" 'kill-this-buffer)
+;; Need to type out :quit to close emacs
+(evil-ex-define-cmd "quit" 'evil-quit)
+#+end_src
+
 ** Ivy
 
 Let's try [[http://oremacs.com/swiper/][Ivy]] in favor of helm.
@@ -399,6 +448,22 @@ fuzzy설정으로 인하여, 파일생성 등을 원할하게 할 수 없는 부
           (apply #'read-file-name-default args))))
 
 (define-key counsel-mode-map [remap find-file] nil)
+#+end_src
+
+** Translate
+구글 번역 설정
+
+#+begin_src emacs-lisp
+(require 'google-translate)
+(require 'google-translate-default-ui)
+;; https://github.com/atykhonov/google-translate/issues/137
+(defun google-translate--search-tkk ()
+  "Search TKK."
+  (list 430675 2721866130))
+
+(setq google-translate-default-source-language "en"
+      google-translate-default-target-language "ko"
+      google-translate-output-destination nil)
 #+end_src
 
 ** Completion
@@ -536,89 +601,13 @@ github스타일의 내보내기
 #+begin_src emacs-lisp
 (require 'org-journal)
 (setq org-journal-dir "~/org/journal/"
-      org-journal-file-format "%Y/%m/%Y%m%d.org"
-      org-journal-file-type 'weekly
-      org-journal-start-on-weekday 5 ; start Friday
-      org-journal-file-header "#+title: Weekly Journal \n#+startup: folded")
+      org-journal-file-format "%Y/%Y%m.org"
+      org-journal-file-type 'monthly
+      org-journal-file-header "#+title: %Y.%m Journal \n#+startup: folded")
 
 (setq org-agenda-files (append
                         org-agenda-files
                         (directory-files-recursively org-journal-dir "\\.org$")))
-#+end_src
-
-** Mail
-#+begin_src emacs-lisp
-;;; Mail
-(require 'mu4e)
-
-;; This is set to 't' to avoid mail syncing issues when using mbsync
-(setq mu4e-change-filenames-when-moving t)
-;; Refresh mail using isync every 5 minutes
-(setq mu4e-update-interval (* 5 60))
-(setq mu4e-get-mail-command "mbsync -a")
-;; don't have to confirm when quitting:
-(setq mu4e-confirm-quit nil)
-;; number of visible headers in horizontal split view:
-(setq mu4e-headers-visible-lines 20)
-;; hide annoying "mu4e Retrieving mail..." msg in mini buffer:
-;; (setq mu4e-hide-index-messages t)
-;; customize the reply-quote-string:
-(setq message-citation-line-format "%N @ %Y-%m-%d %H:%M :\n")
-;; M-x find-function RET message-citation-line-format for docs:
-(setq message-citation-line-function 'message-insert-formatted-citation-line)
-;; by default do not show related emails:
-(setq mu4e-headers-include-related nil)
-
-(setq mu4e-contexts
-      (list
-       ;; Personal account
-       (make-mu4e-context
-        :name "gmail"
-        :match-func
-        (lambda (msg)
-          (when msg
-            (string-prefix-p "/gmail" (mu4e-message-field msg :maildir))))
-        :vars '((user-mail-address . "thkim256@gmail.com")
-                (user-full-name    . "thkim256@gmail.com")
-                (mu4e-drafts-folder  . "/gmail/[Gmail]/Drafts")
-                (mu4e-sent-folder  . "/gmail/[Gmail]/Sent Mail")
-                (mu4e-refile-folder  . "/gmail/[Gmail]/All Mail")
-                (mu4e-trash-folder  . "/gmail/[Gmail]/Trash")))
-       ))
-
-(setq mu4e-maildir-shortcuts
-      '(("/Inbox"             . ?i)
-        ("/gmail/[Gmail]/Sent Mail" . ?s)
-        ("/gmail/[Gmail]/Trash"     . ?t)
-        ("/gmail/[Gmail]/Drafts"    . ?d)
-        ("/gmail/[Gmail]/All Mail"  . ?a)))
-
-#+end_src
-
-mu4e-alert
-
-#+begin_src emacs-lisp
-(require 'mu4e-alert)
-;; (setq mu4e-alert-email-notification-types '(subject))
-;; Choose the style you prefer for desktop notifications
-;; If you are on Linux you can use
-;; 1. notifications - Emacs lisp implementation of the Desktop Notifications API
-;; 2. libnotify     - Notifications using the `notify-send' program, requires `notify-send' to be in PATH
-;;
-;; On Mac OSX you can set style to
-;; 1. notifier      - Notifications using the `terminal-notifier' program, requires `terminal-notifier' to be in PATH
-;; 1. growl         - Notifications using the `growl' program, requires `growlnotify' to be in PATH
-(when (memq window-system '(mac ns))
-  (mu4e-alert-set-default-style 'notifier))
-(add-hook 'after-init-hook #'mu4e-alert-enable-notifications)
-(add-hook 'after-init-hook #'mu4e-alert-enable-mode-line-display)
-#+end_src
-
-mu4e-views
-
-#+begin_src emacs-lisp
-(require 'mu4e-views)
-(mu4e-views-mu4e-use-view-msg-method "html-nonblock")
 #+end_src
 
 ** Interactive functions
@@ -734,27 +723,6 @@ the value.
 (yas-global-mode 1)
 #+end_src
 
-** Evil
-#+begin_src emacs-lisp
-(setq evil-want-keybinding nil)
-(require 'evil)
-(require 'evil-collection)
-(evil-mode t)
-(evil-collection-init)
-
-(require 'evil-org)
-(add-hook 'org-mode-hook 'evil-org-mode)
-(evil-org-set-key-theme '(navigation insert textobjects additional calendar))
-
-(require 'evil-org-agenda)
-(evil-org-agenda-set-keys)
-
-;; :q should kill the current buffer rather than quitting emacs entirely
-(evil-ex-define-cmd "q" 'kill-this-buffer)
-;; Need to type out :quit to close emacs
-(evil-ex-define-cmd "quit" 'evil-quit)
-#+end_src
-
 ** Treemacs
 #+begin_src emacs-lisp
 (require 'treemacs)
@@ -764,57 +732,87 @@ the value.
 (setq treemacs-read-string-input 'from-minibuffer; 입력창을 이맥스 기본 미니버퍼에서 실행
       ;; treemacs-width 35
       ;; treemacs-git-mode 'deferred
-      treemacs-no-png-images nil)
+      treemacs-no-png-images t)
 
 #+end_src
 
-** Encrypt
+** Mail
 #+begin_src emacs-lisp
-;; (require 'epa-file)
-;; (epa-file-enable)
-(require 'org-crypt)
-;; (custom-set-variables '(epg-gpg-program  "/usr/local/bin/gpg"))
-(org-crypt-use-before-save-magic)
-(setq org-tags-exclude-from-inheritance (quote ("crypt")))
-(setq org-crypt-key nil)
-(setq epa-file-select-keys nil)
-;; 암호문구를 이맥스 안에서 실행
-(setq epg-pinentry-mode 'loopback)
+;;; Mail
+;;(add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu/mu4e")
+(require 'mu4e)
+
+;; This is set to 't' to avoid mail syncing issues when using mbsync
+(setq mu4e-change-filenames-when-moving t)
+;; Refresh mail using isync every 5 minutes
+;; (setq mu4e-update-interval (* 5 60))
+(setq mu4e-get-mail-command "mbsync -a")
+;; don't have to confirm when quitting:
+(setq mu4e-confirm-quit nil)
+;; number of visible headers in horizontal split view:
+(setq mu4e-headers-visible-lines 20)
+;; hide annoying "mu4e Retrieving mail..." msg in mini buffer:
+;; (setq mu4e-hide-index-messages t)
+;; customize the reply-quote-string:
+(setq message-citation-line-format "%N @ %Y-%m-%d %H:%M :\n")
+;; M-x find-function RET message-citation-line-format for docs:
+(setq message-citation-line-function 'message-insert-formatted-citation-line)
+;; by default do not show related emails:
+(setq mu4e-headers-include-related nil)
+
+(setq mu4e-headers-date-format "%Y-%m-%d")
+
+(setq mu4e-headers-fields '((:human-date    . 12)
+                            (:flags         . 5)
+                            (:from          . 22)
+                            (:subject       . nil)))
+
+(setq mu4e-contexts
+      (list
+       ;; Personal account
+       (make-mu4e-context
+        :name "gmail"
+        :match-func
+        (lambda (msg)
+          (when msg
+            (string-prefix-p "/gmail" (mu4e-message-field msg :maildir))))
+        :vars '((user-mail-address . "thkim256@gmail.com")
+                (user-full-name    . "thkim256@gmail.com")
+                (mu4e-drafts-folder  . "/gmail/[Gmail]/Drafts")
+                (mu4e-sent-folder  . "/gmail/[Gmail]/Sent Mail")
+                (mu4e-refile-folder  . "/gmail/[Gmail]/All Mail")
+                (mu4e-trash-folder  . "/gmail/[Gmail]/Trash")))
+       ))
+
+(setq mu4e-maildir-shortcuts
+      '(("/Inbox"             . ?i)
+        ("/gmail/[Gmail]/Sent Mail" . ?s)
+        ("/gmail/[Gmail]/Trash"     . ?t)
+        ("/gmail/[Gmail]/Drafts"    . ?d)
+        ("/gmail/[Gmail]/All Mail"  . ?a)))
+
 #+end_src
 
-** Page Breaks
- (C-q C-l) --> pretty view
+mu4e-alert
+
 #+begin_src emacs-lisp
-(require 'page-break-lines)
+(require 'mu4e-alert)
+;; (setq mu4e-alert-email-notification-types '(subject))
+;; Choose the style you prefer for desktop notifications
+;; If you are on Linux you can use
+;; 1. notifications - Emacs lisp implementation of the Desktop Notifications API
+;; 2. libnotify     - Notifications using the `notify-send' program, requires `notify-send' to be in PATH
+;;
+;; On Mac OSX you can set style to
+;; 1. notifier      - Notifications using the `terminal-notifier' program, requires `terminal-notifier' to be in PATH
+;; 1. growl         - Notifications using the `growl' program, requires `growlnotify' to be in PATH
+(when (memq window-system '(mac ns))
+  (mu4e-alert-set-default-style 'notifier))
+(add-hook 'after-init-hook #'mu4e-alert-enable-notifications)
+(add-hook 'after-init-hook #'mu4e-alert-enable-mode-line-display)
 #+end_src
 
-** Translate
-구글 번역 설정
 
-#+begin_src emacs-lisp
-(require 'google-translate)
-(require 'google-translate-default-ui)
-;; https://github.com/atykhonov/google-translate/issues/137
-(defun google-translate--search-tkk ()
-  "Search TKK."
-  (list 430675 2721866130))
-
-(setq google-translate-default-source-language "en"
-      google-translate-default-target-language "ko"
-      google-translate-output-destination nil)
-#+end_src
-
-** Ibuffer
-#+begin_src emacs-lisp
-(defalias 'list-buffers 'ibuffer)
-(setq ibuffer-expert t
-      ibuffer-default-sorting-mode 'major-mode)
-(add-hook 'ibuffer-mode-hook
-          '(lambda ()
-             ;; (add-to-list 'ibuffer-never-show-predicates "^\\*")
-             (ibuffer-auto-mode 1)
-             ))
-#+end_src
 * Mode specific
 ** Shell
 
@@ -896,7 +894,7 @@ RSS Reader
 #+begin_src emacs-lisp
 (require 'elfeed)
 (setq-default elfeed-search-filter "@1-month-ago +unread ")
-(setq elfeed-show-entry-switch 'display-buffer)
+(setq elfeed-show-entry-switch 'switch-to-buffer) ;; display-buffer
 ;; (setq browse-url-browser-function 'eww-browse-url)
 
 (require 'elfeed-org)
@@ -984,7 +982,7 @@ indent 설정
 들여쓰기 표시 활성화
 #+begin_src emacs-lisp
 (add-hook 'yaml-mode-hook
-          '(lambda ()
+          #'(lambda ()
              (highlight-indentation-mode)
              ;; (highlight-indentation-current-column-mode)
              ))
@@ -1020,7 +1018,9 @@ Golang 관련 설정
 
 go debug
 #+begin_src emacs-lisp
-(require 'dap-go)
+;; (require 'dap-go)
+;; go install github.com/go-delve/delve/cmd/dlv@latest
+(require 'dap-dlv-go)
 #+end_src
 
 ** Java
@@ -1049,6 +1049,7 @@ go debug
 default는 로컬에 있는 jar 형식을 사용
 
 #+begin_src emacs-lisp
+(require 'plantuml-mode)
 (setq plantuml-default-exec-mode 'jar)
 (setq plantuml-jar-path (concat user-emacs-directory "/bin/plantuml/plantuml.jar"))
 
@@ -1165,7 +1166,8 @@ c.f. [[http://stackoverflow.com/questions/683425/globally-override-key-binding-i
 (define-key custom-bindings-map (kbd "C-c c")   'org-capture)
 (define-key custom-bindings-map (kbd "C-c t")
   (lambda () (interactive) (org-agenda nil "n")))
-(define-key custom-bindings-map (kbd "C-c j")   'org-journal-new-entry)
+(define-key custom-bindings-map (kbd "C-c j")   'org-journal-open-current-journal-file)
+(define-key custom-bindings-map (kbd "C-c J")   'org-journal-new-entry)
 #+end_src
 
 ** Bindings for Mu4e
@@ -1174,8 +1176,7 @@ c.f. [[http://stackoverflow.com/questions/683425/globally-override-key-binding-i
 (global-set-key (kbd "<f5>")
                 (lambda ()
                   (interactive)
-                  (mu4e-alert-notify-unread-mail-async)
-                  (mu4e-alert-view-unread-mails)))
+                  (mu4e-headers-search "date:7d..now")))
 #+end_src
 ** Bindings for functions defined [[sec:defuns][above]].
 
