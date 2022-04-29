@@ -214,7 +214,7 @@ Mac OS에서의 기본 설정
 
 #+begin_src emacs-lisp
 (setq auto-revert-interval 1            ; Refresh buffers fast
-      default-input-method "TeX"        ; Use TeX when toggling input method
+      warning-minimum-level :emergency  ; Native comp warning disable
       echo-keystrokes 0.1               ; Show keystrokes asap
       inhibit-startup-screen t          ; No splash screen please
       initial-scratch-message nil       ; Clean scratch buffer
